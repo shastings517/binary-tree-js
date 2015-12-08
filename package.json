@@ -1,0 +1,10 @@
+{
+  "name": "js-binary-tree-exercise",
+  "version": "1.0.0",
+  "main": "binary_tree.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "author": "",
+  "license": "ISC"
+}
