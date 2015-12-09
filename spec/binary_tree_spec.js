@@ -142,6 +142,22 @@ describe("BinTree", function(){
       });
     });
   });
+  describe("#findLowest", function(){
+    it("It should", function(){
+      binTree = new data.BinTree();
+      [7,3,9,1,99,44,66].forEach(function(v) {
+        binTree.insertRecursively(v);
+      });
+    });
+  });
+  describe("#findHighest", function(){
+    it("It should", function(){
+      binTree = new data.BinTree();
+      [7,3,9,1,99,44,66].forEach(function(v) {
+        binTree.insertRecursively(v);
+      });
+    });
+  });
     describe("breadth first search", function(){
       var binTree;
       beforeEach(function() {
@@ -174,22 +190,6 @@ describe("BinTree", function(){
       describe("postorder", function(){
         it("searches from left - right - root", function(){
           expect(binTree.DFSInOrder()).toEqual([1, 3, 7, 9, 44, 66, 99]);
-        });
-      });
-    });
-    describe("#findLowest", function(){
-      it("It should", function(){
-        binTree = new data.BinTree();
-        [7,3,9,1,99,44,66].forEach(function(v) {
-          binTree.insertRecursively(v);
-        });
-      });
-    });
-    describe("#findHighest", function(){
-      it("It should", function(){
-        binTree = new data.BinTree();
-        [7,3,9,1,99,44,66].forEach(function(v) {
-          binTree.insertRecursively(v);
         });
       });
     });
