@@ -212,7 +212,7 @@ BinTree.prototype.findLowest = function() {
     var current = this.root;
     // this can be done with an IIFE + Ternary
     return (function search(node) {
-        return current.left ? search(node.left) : current.value;
+        return node.left ? search(node.left) : node.value;
     })(current);
 };
 
@@ -220,10 +220,10 @@ BinTree.prototype.findHighest = function() {
     var current = this.root;
     // or just an IIFE (you don't even NEED one)
     return (function search(node) {
-        if(current.right) {
+        if(node.right) {
           return search(node.right);
         }
-        return current.value;
+        return node.value;
     })(current);
 };
 
@@ -238,6 +238,117 @@ BinTree.prototype._countChildren = function(node){
 // TODO!
 BinTree.prototype.remove = function(value){
 
+  var isFound = false;
+  var current = this.root;
+  var parent;
+  var temp;
+  var tempParent;
+
+    // very similar to our search function except this time we have a parent
+    while(current && !isFound){
+      if(value < current.value){
+        parent = current;
+        current = current.left;
+      }
+      else if(value > current.value){
+        parent = current;
+        current = current.right;
+       }
+      else {
+        isFound = true;
+      }
+    }
+
+  // return if the value is not in the tree
+  if(!isFound) return "Value not in the tree!";
+  else {
+    var childCount = this._countChildren(current);
+    // use the _.countChildren method to figure out the # of children
+    // there are no children - no children, no problem
+    if(childCount === 0){
+      if(parent && current.value > parent.value){
+        parent.right = null;
+      }
+      else if(parent && current.value < parent.value){
+        parent.left = null;
+      }
+      // we must be removing the root node with no children
+      else{
+        this.root = null;
+      }
+    }
+
+    // there is one child, a bit tougher, but not too bad
+    else if(childCount === 1){
+      // first lets see if the node to remove is on the right or left
+      if(parent && current.value > parent.value){
+        temp = current.right;
+        parent.right = temp;
+      }
+      else if(parent && current.value < parent.value) {
+        temp = current.left;
+        parent.left = temp;
+      }
+      // remove the root node when there is 1 or more children
+      else {
+        if(this.root.left && value > this.root.left.value){
+          this.root = this.root.left
+      }
+        else {
+          this.root = this.root.right
+        }
+      }
+    }
+    // there are 2 children...party time
+    else {
+
+      // find the smallest node on the right of the node to be removed
+      temp = current.right
+
+      while(temp.left !== null){
+        tempParent = temp
+        temp = temp.left
+      }
+
+//    find the subtree of the one to be changed
+      var sample;
+      var tempLoop = temp
+
+      while(tempLoop !== null){
+        sample = tempLoop
+        tempLoop = tempLoop.right
+        }
+
+      if(parent && current.value > parent.value){
+        temp.left = current.left;
+        temp.right = current.right
+        if(tempParent) tempParent.left = null
+        parent.right = temp
+      }
+      // this is working
+      else if(parent && current.value < parent.value) {
+        // two new variables for finding the right most node of the one to be swapped
+        // temp.right = sample
+
+        if(!tempParent){
+          sample.right = null
+        }else {
+          sample.right = current.right
+          tempParent.left = null
+        }
+
+        temp.left = current.left;
+        parent.left = temp
+        // reset the left
+      }
+      else {
+        sample.right = current.right
+        temp.left = current.left;
+        tempParent.left = null
+        this.root = temp
+      }
+    }
+  }
 };
 
 module.exports = {
