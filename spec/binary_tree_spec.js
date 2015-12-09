@@ -202,31 +202,40 @@ describe("BinTree", function(){
         expect(binTree.size()).toEqual(7);
       });
     });
-    xdescribe("#remove", function(){
-      binTree = new data.BinTree();
-      [7,3,9,1,99,44,66].forEach(function(v) {
-        binTree.insertRecursively(v);
+    describe("#remove", function(){
+      beforeEach(function(){
+        binTree = new data.BinTree();
+        [7,3,9,8,5,1,99,44,33,66].forEach(function(v) {
+          binTree.insertRecursively(v);
+        });
       });
       it("does not remove values not in the tree", function(){
-        expect(binTree.remove(100)).toEqual("value not in tree!");
+        expect(binTree.remove(100)).toEqual("Value not in the tree!");
       });
       it("removes leaf nodes correctly", function(){
-
-      });
-      it("removes nodes with one child correctly", function(){
-
+        binTree.remove(1);
+        expect(binTree.breadthFirstSearch()).toEqual([ 7, 3, 9, 5, 8, 99, 44, 33, 66]);
       });
       it("removes nodes with two children correctly", function(){
-
+        binTree.remove(3);
+        expect(binTree.breadthFirstSearch()).toEqual([7, 5, 9, 1, 8, 99, 44, 33, 66 ]);
       });
       it("removes the root node correctly when the root is a leaf", function(){
-
+        binTree = new data.BinTree();
+        binTree.insertRecursively(7);
+        binTree.remove(7)
+        expect(binTree.breadthFirstSearch()).toEqual([]);
       });
       it("removes the root node correctly when the root has a child", function(){
-
+        binTree = new data.BinTree();
+        binTree.insertRecursively(7);
+        binTree.insertRecursively(10);
+        binTree.remove(7);
+        expect(binTree.breadthFirstSearch()).toEqual([10]);
       });
       it("removes the root node correctly when the root has two children", function(){
-
+        binTree.remove(7);
+        expect(binTree.breadthFirstSearch()).toEqual([8, 3, 9, 1, 5, 99, 44, 33, 66 ]);
       });
     });
 });
